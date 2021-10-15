@@ -10,12 +10,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.yieldstreet.home.challenge.request.UserAccreditationRequest;
 import com.yieldstreet.home.challenge.response.UserAccreditationResponse;
 import com.yieldstreet.home.challenge.service.UserAccreditationService;
 
-@Service
+@RestController
 @Path("/user")
 public class UserAccreditationController {
 
