@@ -29,16 +29,16 @@ class DocumentServiceSpockTests extends Specification {
 		fullpath = documentService.getBasepath() + "\\" + user + "\\" + docName
 	}
 	
-	def 'should call document saving method twice'() {
-		given:
+	def 'should create the file'() {
+		given: 'a document'
 			def doc = new Document()
 			doc.setContent("ICAiQC8qIjogWyJzcmMvKiJdCiAgICB9CiAgfQp9Cg==")
 			doc.setMimeType("application/pdf")
 			doc.setName(docName)
-		when:
+		when: 'document is saved'
 			documentService.saveDocument(doc,user);
 	 
-		then:
+		then: 'document should be in the default path'
 			FileManagementUtils.checkFileExists(fullpath) == true
 	}
 	

@@ -7,6 +7,7 @@ import com.yieldstreet.home.challenge.service.UserAccreditationService
 import org.springframework.beans.factory.annotation.Autowired
 import com.yieldstreet.home.challenge.model.AccreditationProof
 import com.yieldstreet.home.challenge.model.Document
+import com.yieldstreet.home.challenge.enums.AccreditationType
 import org.springframework.boot.test.context.SpringBootTest
 import org.spockframework.spring.SpringBean
 import org.springframework.test.context.ContextConfiguration
@@ -23,7 +24,7 @@ class UserAccreditationServiceSpockTests extends Specification {
 	
 	
 	def 'should call document saving method twice'() {
-		given:
+		given: 'an accreditation proof with 2 documents attached'
 			def user = "g8NlYJnk7zK9BlB1J2Ebjs0AkhCTpE1V"
 			def doc = new Document()
 			doc.setContent("ICAiQC8qIjogWyJzcmMvKiJdCiAgICB9CiAgfQp9Cg==")
@@ -34,25 +35,25 @@ class UserAccreditationServiceSpockTests extends Specification {
 			doc2.setMimeType("image/png")
 			doc2.setName("2020.png")
 			def proof = new AccreditationProof()
-			proof.setAccreditationType("BY_INCOME")
+			proof.setAccreditationType(AccreditationType.BY_INCOME)
 			proof.setDocuments(Arrays.asList(doc,doc2))
-		when:
+		when: 'run the service'
 			userAccreditationService.verify(proof,user)
 	 
-		 then:
+		 then: ' tried to save both documents'
 			 2 *  documentService.saveDocument(_,_)
 	}
 	
 	
 	
 	def 'should return a boolean even when called with no docs'() {
-		given:
+		given: 'an accreditation proof with no documents attached'
 			def user = "g8NlYJnk7zK9BlB1J2Ebjs0AkhCTpE1V"
 			
 			def proof = new AccreditationProof()
-			proof.setAccreditationType("BY_INCOME")
+			proof.setAccreditationType(AccreditationType.BY_INCOME)
 			proof.setDocuments(new ArrayList<Document>())
-		expect:
+		expect: 'return a regular response'
 			userAccreditationService.verify(proof,user) instanceof Boolean
 
 	}
