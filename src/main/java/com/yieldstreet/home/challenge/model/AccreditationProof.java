@@ -2,16 +2,18 @@ package com.yieldstreet.home.challenge.model;
 
 import java.util.List;
 
+import com.yieldstreet.home.challenge.enums.AccreditationType;
+
 public class AccreditationProof {
 	private Long id;
-	private String accreditationType;
+	private AccreditationType accreditationType;
 	private List<Document> documents;
 
-	public String getAccreditationType() {
+	public AccreditationType getAccreditationType() {
 		return accreditationType;
 	}
 
-	public void setAccreditationType(String accreditationType) {
+	public void setAccreditationType(AccreditationType accreditationType) {
 		this.accreditationType = accreditationType;
 	}
 
