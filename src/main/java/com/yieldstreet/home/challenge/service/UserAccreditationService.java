@@ -13,16 +13,28 @@ import com.yieldstreet.home.challenge.model.Document;
 
 @Service
 public class UserAccreditationService {
+	
+	private final String[] ACCEPTED_MIME_TYPES = {"application/pdf","image/png","image/jpeg","image/jpg"};
 
 	@Inject
 	DocumentService documentService;
 	
 	public boolean verify(AccreditationProof proof, String user) throws FileNotFoundException, IOException {
-		for(Document doc: proof.getDocuments())
+		if(proof.getDocuments() == null || proof.getDocuments().isEmpty())
+			return false;
+		
+		for(Document doc: proof.getDocuments()) {
+			checkMimeType(doc);
 			documentService.saveDocument(doc,user);
+		}
 		
 		return Math.random() > 0.49;
 		
+	}
+	
+	private void checkMimeType(Document doc) {
+		if(!Arrays.asList(ACCEPTED_MIME_TYPES).contains(doc.getMimeType()))
+			throw new IllegalArgumentException("File extension not accepted. Accepted files include: pdf, jpg and png");
 	}
 	
 	

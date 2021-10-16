@@ -1,15 +1,16 @@
 package com.yieldstreet.home.challenge.controller;
 
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import static com.yieldstreet.home.challenge.util.ResponseFactory.ok;
 
-import org.springframework.stereotype.Service;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.inject.Inject;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yieldstreet.home.challenge.request.UserAccreditationRequest;
@@ -17,26 +18,18 @@ import com.yieldstreet.home.challenge.response.UserAccreditationResponse;
 import com.yieldstreet.home.challenge.service.UserAccreditationService;
 
 @RestController
-@Path("/user")
+@RequestMapping("/user")
 public class UserAccreditationController {
 
 	@Inject
 	UserAccreditationService userAccreditationService;
-	
-	@POST
-	@Path("/accreditation")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response validate(UserAccreditationRequest req) {
-		try {
-			UserAccreditationResponse resp = new UserAccreditationResponse();
-			resp.setSuccess(true);
-			resp.setAccredited(userAccreditationService.verify(req.getPayload(),req.getUserId()));
-			return Response.status(200).entity(resp).build();
-		} catch (IllegalArgumentException ex) {
-			return Response.status(400).build();
-		} catch (Exception ex) {
-			return Response.status(500).build();
-		}
+
+	@PostMapping("/accreditation")
+	public ResponseEntity<Object> validate(@RequestBody UserAccreditationRequest req) throws FileNotFoundException, IOException {
+		UserAccreditationResponse resp = new UserAccreditationResponse();
+		
+		resp.setAccredited(userAccreditationService.verify(req.getPayload(), req.getUserId()));
+		resp.setSuccess(true);
+		return ok(resp);
 	}
 }
