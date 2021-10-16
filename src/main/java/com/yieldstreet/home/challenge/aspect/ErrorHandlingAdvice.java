@@ -15,12 +15,12 @@ public class ErrorHandlingAdvice {
 
 	@ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
 	protected ResponseEntity<Object> handleBadRequest(Exception ex) {
-		logger.error(ex.getMessage());
+		logger.error(ex.getMessage(),ex);
 		return badRequest(ex.getMessage());
 	}
 	@ExceptionHandler(value = { Throwable.class })
 	protected ResponseEntity<Object> handleInternalError(Throwable ex) {
-		logger.error(ex.getMessage());
+		logger.error(ex.getMessage(),ex);
 		return serverError(ex.getMessage());
 	}
 }

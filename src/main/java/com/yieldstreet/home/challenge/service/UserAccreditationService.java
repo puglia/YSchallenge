@@ -33,7 +33,9 @@ public class UserAccreditationService {
 	}
 	
 	private void checkMimeType(Document doc) {
-		if(!Arrays.asList(ACCEPTED_MIME_TYPES).contains(doc.getMimeType()))
+		
+		if(doc.getMimeType() == null || doc.getMimeType().isEmpty() ||
+				!Arrays.asList(ACCEPTED_MIME_TYPES).contains(doc.getMimeType()))
 			throw new IllegalArgumentException("File extension not accepted. Accepted files include: pdf, jpg and png");
 	}
 	

@@ -32,5 +32,9 @@ public class AccreditationProof {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public String toString() {
+		return "id: " + this.id + ", accreditationType: " + this.accreditationType;
+	}
 
 }
