@@ -12,7 +12,6 @@ import org.spockframework.spring.SpringBean
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import com.yieldstreet.home.challenge.controller.UserAccreditationController
-import com.yieldstreet.home.challenge.config.ApplicationConfiguration
 import com.yieldstreet.home.challenge.model.AccreditationProof
 import com.yieldstreet.home.challenge.model.Document
 
